@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\configureawait.props" />
+	<Import Project="..\..\common.props" />
+  <PropertyGroup>
+	  <AssemblyName>Heus.AspNetCore</AssemblyName>
+	  <PackageId>Heus.AspNetCore</PackageId>
+	  <RootNamespace>Heus.AspNetCore</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+	  <PackageReference Include="Autofac" Version="6.2.0" />
+	  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heus.Core\Heus.Core.csproj" />
+  </ItemGroup>
+
+</Project>

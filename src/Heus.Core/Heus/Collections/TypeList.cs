@@ -36,7 +36,7 @@ namespace Heus.Collections
         /// <param name="index">Index.</param>
         public Type this[int index]
         {
-            get { return _typeList[index]; }
+            get => _typeList[index];
             set
             {
                 CheckType(value);

@@ -458,9 +458,9 @@ namespace System
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null</exception>
         public static string Truncate(this string str, int maxLength)
         {
-            if (str == null)
+            if (str.IsNullOrEmpty())
             {
-                return null;
+                return default;
             }
 
             if (str.Length <= maxLength)

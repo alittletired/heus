@@ -5,11 +5,10 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-    </ItemGroup>
+  
 
     <ItemGroup>
+      <ProjectReference Include="..\Heus.AspNetCore\Heus.AspNetCore.csproj" />
       <ProjectReference Include="..\Heus.Core\Heus.Core.csproj" />
     </ItemGroup>
 

@@ -1,6 +1,7 @@
-﻿namespace Heus.DependencyInjection
+namespace Heus.DependencyInjection
 {
     public interface IScopedDependency
     {
+        
     }
 }

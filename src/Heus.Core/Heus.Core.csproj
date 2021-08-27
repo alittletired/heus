@@ -2,14 +2,9 @@
 	<Import Project="..\..\configureawait.props" />
 	<Import Project="..\..\common.props" />
   <PropertyGroup>
-	  <TargetFramework>netstandard2.0</TargetFramework>
 	  <AssemblyName>Heus.Core</AssemblyName>
+	  <RootNamespace>Heus</RootNamespace>
 	  <PackageId>Heus.Core</PackageId>
-	  <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-	  <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-	  <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-	  <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-	  <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,10 +25,6 @@
 	  <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
 	  <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.0" />
 	  <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Heus\Options\" />
   </ItemGroup>
 
 </Project>
