@@ -1,17 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Heus.Internal;
+using Heus.Reflection;
 
-namespace Heus.Reflection
+namespace Heus.Modularity
 {
-    public class TypeFinder : ITypeFinder
+    internal class ModuleTypeFinder
     {
-        private readonly IAssemblyFinder _assemblyFinder;
+        private readonly ModuleAssemblyFinder _assemblyFinder;
 
         private readonly Lazy<IReadOnlyList<Type>> _types;
 
-        public TypeFinder(IAssemblyFinder assemblyFinder)
+        public ModuleTypeFinder(ModuleAssemblyFinder assemblyFinder)
         {
             _assemblyFinder = assemblyFinder;
 

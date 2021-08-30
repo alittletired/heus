@@ -13,7 +13,7 @@ namespace Heus.Modularity
         public static List<Type> FindAllModuleTypes(Type startupModuleType, ILogger logger)
         {
             var moduleTypes = new List<Type>();
-            logger.Log(LogLevel.Information, "Loaded Service modules:");
+            logger.LogInformation( "Loaded Service modules:");
             AddModuleAndDependenciesRecursively(moduleTypes, startupModuleType, logger);
             return moduleTypes;
         }

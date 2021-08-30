@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Heus.Modularity
 {
-    internal class ServiceModuleDescriptor
+    public class ServiceModuleDescriptor
     {
         public Type Type { get; }
 

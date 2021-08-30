@@ -1,4 +1,5 @@
 using Heus.AspNetCore.OpenApi;
+using Heus.Modularity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,15 +9,14 @@ using Microsoft.OpenApi.Models;
 
 namespace Heus.AspNetCore
 {
-    internal class HeusStartUp
+    internal class StartUpModule<T> where T:ServiceModule
     {
-        public HeusStartUp(IConfiguration configuration)
+        public StartUpModule(IConfiguration configuration)
         {
             Configuration = configuration;
         }
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
@@ -29,9 +29,10 @@ namespace Heus.AspNetCore
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var application = app.ApplicationServices.GetRequiredService<IHeusApplication>();
+            application.Initialize(app.ApplicationServices);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

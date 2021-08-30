@@ -3,8 +3,8 @@
 	<Import Project="..\..\common.props" />
   <PropertyGroup>
 	  <AssemblyName>Heus.Core</AssemblyName>
-	  <RootNamespace>Heus</RootNamespace>
 	  <PackageId>Heus.Core</PackageId>
+	  <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +27,10 @@
 	  <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
 	  <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.0" />
 	  <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="System\DependencyInjection" />
   </ItemGroup>
 
 </Project>
