@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="Autofac" Version="6.2.0" />
+	  <PackageReference Include="AutoMapper" Version="10.1.1" />
 	  <PackageReference Include="System.ComponentModel.Annotations" Version="$(MicrosoftPackageVersion)" />
 	  <PackageReference Include="System.Collections.Immutable" Version="$(MicrosoftPackageVersion)" />
 	  <PackageReference Include="Microsoft.Extensions.Localization" Version="$(MicrosoftPackageVersion)" />

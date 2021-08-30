@@ -9,7 +9,7 @@ using Heus.DependencyInjection;
 
 namespace Heus.AspNetCore.OpenApi
 {
-    public class EnumSchemaFilter:ISchemaFilter,ITransientDependency
+    internal class EnumSchemaFilter:ISchemaFilter,ITransientDependency
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {

@@ -6,7 +6,7 @@ using System.Text;
 namespace Heus
 {/// <summary>
  /// This class can be used to provide an action when
- /// Dipose method is called.
+ /// Dispose method is called.
  /// </summary>
     public class DisposeAction : IDisposable
     {

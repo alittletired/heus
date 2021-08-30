@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Heus.AspNetCore.OpenApi
 {
-    public class ResponseContentTypeOperationFilter: IOperationFilter
+    internal class ResponseContentTypeOperationFilter: IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
@@ -15,7 +15,6 @@ namespace Heus.AspNetCore.OpenApi
 
             operation.Responses.Remove("text/plain");
             operation.Responses.Remove("text/json");
-            operation.Responses.AsQueryable().Where(s => s.Key != null).ToArray();
 
         }
     }
