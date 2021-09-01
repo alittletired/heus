@@ -6,7 +6,7 @@ namespace Heus.Web
     {
         public static void Main(string[] args)
         {
-            HeusWebApplication.Run<HeusWebModule>(args);
+            HeusWebApplication.Run(args,typeof(HeusWebModule));
         }
     }
 }

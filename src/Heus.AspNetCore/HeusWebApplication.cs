@@ -18,19 +18,19 @@ namespace Heus.AspNetCore
         /// 开启web应用
         /// </summary>
         /// <param name="args"></param>
-        /// <param name="entryAssembly"></param>
-        public static void Run<T>(string[] args, Assembly entryAssembly = null) where T:ServiceModule 
+        /// <param name="startModuleType"></param>
+        public static void Run(string[] args, Type startModuleType) 
         {
-            CreateHostBuilder<T>(args, entryAssembly).Build().Run();
+            CreateHostBuilder(args, startModuleType).Build().Run();
         }
 
-        private static IHostBuilder CreateHostBuilder<T>(string[] args, Assembly entryAssembly)where T:ServiceModule  =>
+        private static IHostBuilder CreateHostBuilder(string[] args, Type startModuleType)  =>
             Host.CreateDefaultBuilder(args)
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<StartUpModule<T>>();
-                    var name =typeof(T).Assembly.GetName().Name;
+                    webBuilder.UseStartup<StartUp>();
+                    var name =startModuleType.Assembly.GetName().Name;
                     webBuilder.UseSetting(WebHostDefaults.ApplicationKey, name);
                 });
     }

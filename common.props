@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/abpframework/abp/</RepositoryUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- <TreatWarningsAsErrors>true</TreatWarningsAsErrors> -->
-	  <!-- <Nullable>enable</Nullable> -->
+	  <Nullable>enable</Nullable>
     <!-- Include symbol files (*.pdb) in the built .nupkg -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>

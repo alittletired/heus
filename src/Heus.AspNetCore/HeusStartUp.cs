@@ -9,9 +9,9 @@ using Microsoft.OpenApi.Models;
 
 namespace Heus.AspNetCore
 {
-    internal class StartUpModule<T> where T:ServiceModule
+    internal class StartUp 
     {
-        public StartUpModule(IConfiguration configuration)
+        public StartUp(IConfiguration configuration)
         {
             Configuration = configuration;
         }
