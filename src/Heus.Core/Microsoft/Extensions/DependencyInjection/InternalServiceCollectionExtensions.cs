@@ -26,7 +26,7 @@ namespace Heus.Internal
                
                 services.TryAddSingleton(assemblyFinder);
                 services.TryAddSingleton(typeFinder);
-                var loggerFactory = services.GetSingletonInstance<ILoggerFactory>();
+                var loggerFactory = new LoggerFactory();
                 var moduleLoader = new ModuleLoader(loggerFactory.CreateLogger(abpApplication.GetType().Name));
                 services.TryAddSingleton(moduleLoader);
                 services.AddAssemblyOf<IHeusApplication>();

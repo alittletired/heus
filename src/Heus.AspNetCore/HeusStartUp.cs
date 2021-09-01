@@ -19,6 +19,7 @@ namespace Heus.AspNetCore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplication<T>();
             services.AddControllers()
                 .AddControllersAsServices();
             services.AddSwaggerGen(c =>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heus.Heus.MultiTenancy
+namespace Heus.MultiTenancy
 {
     public interface ICurrentTenant
     {

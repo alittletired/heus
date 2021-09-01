@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Heus.MultiTenancy;
 
-namespace Heus.Heus.MultiTenancy
+namespace Heus.MultiTenancy
 {
     internal class CurrentTenant : ICurrentTenant
     {

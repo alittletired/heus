@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    internal static class ServiceCollectionApplicationExtensions
+    public static class ServiceCollectionApplicationExtensions
     {
         public static IHeusApplication AddApplication<TStartupModule>(
             [NotNull] this IServiceCollection services,
