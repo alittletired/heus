@@ -76,9 +76,9 @@ namespace Heus.Modularity
             return new ServiceModuleDescriptor(moduleType, CreateAndRegisterModule(services, moduleType), isLoadedAsPlugIn);
         }
 
-        protected virtual ServiceModule CreateAndRegisterModule(IServiceCollection services, Type moduleType)
+        protected virtual ModuleBase CreateAndRegisterModule(IServiceCollection services, Type moduleType)
         {
-            var module = (ServiceModule)Activator.CreateInstance(moduleType);
+            var module = (ModuleBase)Activator.CreateInstance(moduleType);
             services.AddSingleton(moduleType, module);
             return module;
         }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Heus.Security
 {
-    internal class CurrentUser : ICurrentUser, ITransientDependency
+    internal class CurrentUser : ICurrentUser, TransientDependencyAttribute
     {
         private static readonly AsyncLocal<ClaimsPrincipal?> _currentPrincipal = new AsyncLocal<ClaimsPrincipal?>();
         public bool IsAuthenticated => Principal != null;

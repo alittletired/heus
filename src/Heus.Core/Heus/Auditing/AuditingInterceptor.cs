@@ -3,12 +3,14 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Heus.DependencyInjection;
 using Heus.DynamicProxy;
+using Heus.Security;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Heus.Auditing
 {
-   public class AuditingInterceptor : IInterceptor, ITransientDependency
+    [TransientDependency]
+   public class AuditingInterceptor : IInterceptor
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -22,7 +24,7 @@ namespace Heus.Auditing
             using (var serviceScope = _serviceScopeFactory.CreateScope())
             {
                 var auditingHelper = serviceScope.ServiceProvider.GetRequiredService<IAuditingHelper>();
-                var auditingOptions = serviceScope.ServiceProvider.GetRequiredService<IOptions<AbpAuditingOptions>>().Value;
+                var auditingOptions = serviceScope.ServiceProvider.GetRequiredService<IOptions<AuditingOptions>>().Value;
 
                 if (!ShouldIntercept(invocation, auditingOptions, auditingHelper))
                 {

@@ -36,18 +36,8 @@ namespace Heus.DependencyInjection
                     lifeTime.Value
                 );
 
-                if (dependencyAttribute?.ReplaceServices == true)
-                {
-                    services.Replace(serviceDescriptor);
-                }
-                else if (dependencyAttribute?.TryRegister == true)
-                {
-                    services.TryAdd(serviceDescriptor);
-                }
-                else
-                {
-                    services.Add(serviceDescriptor);
-                }
+                //允许外层重新注入
+                services.TryAdd(serviceDescriptor);
             }
         }
 
@@ -62,23 +52,7 @@ namespace Heus.DependencyInjection
             List<Type> allExposingServiceTypes,
             ServiceLifetime lifeTime)
         {
-            if (lifeTime.IsIn(ServiceLifetime.Singleton, ServiceLifetime.Scoped))
-            {
-                var redirectedType = GetRedirectedTypeOrNull(
-                    implementationType,
-                    exposingServiceType,
-                    allExposingServiceTypes
-                );
-
-                if (redirectedType != null)
-                {
-                    return ServiceDescriptor.Describe(
-                        exposingServiceType,
-                        provider => provider.GetService(redirectedType),
-                        lifeTime
-                    );
-                }
-            }
+       
 
             return ServiceDescriptor.Describe(
                 exposingServiceType,
@@ -87,34 +61,11 @@ namespace Heus.DependencyInjection
             );
         }
 
-        protected virtual Type GetRedirectedTypeOrNull(
-            Type implementationType,
-            Type exposingServiceType,
-            List<Type> allExposingServiceTypes)
+    
+
+        protected virtual DependencyAttribute? GetDependencyAttribute(Type type)
         {
-            if (allExposingServiceTypes.Count < 2)
-            {
-                return null;
-            }
-
-            if (exposingServiceType == implementationType)
-            {
-                return null;
-            }
-
-            if (allExposingServiceTypes.Contains(implementationType))
-            {
-                return implementationType;
-            }
-
-            return allExposingServiceTypes.FirstOrDefault(
-                t => t != exposingServiceType && exposingServiceType.IsAssignableFrom(t)
-            );
-        }
-
-        protected virtual DependencyAttribute GetDependencyAttributeOrNull(Type type)
-        {
-            return type.GetCustomAttribute<DependencyAttribute>(true);
+            return type.GetCustomAttributes().OfType<DependencyAttribute>().FirstOrDefault();
         }
 
         protected virtual ServiceLifetime? GetLifeTimeOrNull(Type type, [CanBeNull] DependencyAttribute dependencyAttribute)
@@ -124,17 +75,17 @@ namespace Heus.DependencyInjection
 
         protected virtual ServiceLifetime? GetServiceLifetimeFromClassHierarchy(Type type)
         {
-            if (typeof(ITransientDependency).GetTypeInfo().IsAssignableFrom(type))
+            if (typeof(TransientDependencyAttribute).GetTypeInfo().IsAssignableFrom(type))
             {
                 return ServiceLifetime.Transient;
             }
 
-            if (typeof(ISingletonDependency).GetTypeInfo().IsAssignableFrom(type))
+            if (typeof(SingletonDependencyAttribute).GetTypeInfo().IsAssignableFrom(type))
             {
                 return ServiceLifetime.Singleton;
             }
 
-            if (typeof(IScopedDependency).GetTypeInfo().IsAssignableFrom(type))
+            if (typeof(ScopedDependencyAttribute).GetTypeInfo().IsAssignableFrom(type))
             {
                 return ServiceLifetime.Scoped;
             }

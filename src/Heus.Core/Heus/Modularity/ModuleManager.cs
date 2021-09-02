@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace Heus.Modularity
 {
-    internal class ModuleManager : ISingletonDependency
+    internal class ModuleManager : SingletonDependencyAttribute
     {
         private readonly IModuleContainer _moduleContainer;
         private readonly ILogger<ModuleManager> _logger;

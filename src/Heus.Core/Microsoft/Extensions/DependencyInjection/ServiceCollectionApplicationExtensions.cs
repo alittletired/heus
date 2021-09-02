@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IHeusApplication AddApplication<TStartupModule>(
             [NotNull] this IServiceCollection services,
             [CanBeNull] Action<ApplicationCreationOptions> optionsAction = null)
-            where TStartupModule : ServiceModule
+            where TStartupModule : ModuleBase
         {
             return new HeusApplication(typeof(TStartupModule), services, optionsAction);
         }

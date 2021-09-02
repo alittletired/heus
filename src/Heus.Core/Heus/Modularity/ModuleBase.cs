@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Heus.Modularity
 {
-    public abstract class ServiceModule
+    public abstract class ModuleBase
     {
         public virtual bool SkipAutoServiceRegistration { get; protected set; }
       

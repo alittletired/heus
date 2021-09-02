@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Heus.Security
 {
-    internal class SecurityModule:ServiceModule
+    internal class SecurityModule:ModuleBase
     {
     }
 }

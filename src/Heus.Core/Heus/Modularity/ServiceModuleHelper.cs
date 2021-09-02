@@ -54,7 +54,7 @@ namespace Heus.Modularity
                 typeInfo.IsClass &&
                 !typeInfo.IsAbstract &&
                 !typeInfo.IsGenericType &&
-                typeof(ServiceModule).GetTypeInfo().IsAssignableFrom(type);
+                typeof(ModuleBase).GetTypeInfo().IsAssignableFrom(type);
         }
         private static void AddModuleAndDependenciesRecursively(
             List<Type> moduleTypes,

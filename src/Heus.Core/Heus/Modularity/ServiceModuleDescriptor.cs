@@ -15,7 +15,7 @@ namespace Heus.Modularity
 
         public Assembly Assembly { get; }
 
-        public ServiceModule Instance { get; }
+        public ModuleBase Instance { get; }
 
         public bool IsLoadedAsPlugIn { get; }
 
@@ -24,7 +24,7 @@ namespace Heus.Modularity
 
         public ServiceModuleDescriptor(
             [NotNull] Type type,
-            [NotNull] ServiceModule instance,
+            [NotNull] ModuleBase instance,
             bool isLoadedAsPlugIn)
         {
             Check.NotNull(type, nameof(type));
