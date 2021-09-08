@@ -4,11 +4,14 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Heus.DependencyInjection
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class DependencyAttribute : Attribute
+    public class ServiceAttribute : Attribute
     {
-        public   ServiceLifetime Lifetime { get;  }
-      
-        public DependencyAttribute(ServiceLifetime lifetime)
+        public ServiceLifetime? Lifetime { get; }
+
+        public ServiceAttribute()
+        {
+        }
+        public ServiceAttribute(ServiceLifetime lifetime)
         {
             Lifetime = lifetime;
         }

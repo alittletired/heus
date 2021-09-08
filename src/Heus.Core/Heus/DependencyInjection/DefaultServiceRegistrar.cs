@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Heus.DependencyInjection
 {
-    public class DefaultConventionalRegistrar : ConventionalRegistrarBase
+    public class DefaultServiceRegistrar : IServiceRegistrar
     {
         public override void AddType(IServiceCollection services, Type type)
         {
@@ -36,7 +36,6 @@ namespace Heus.DependencyInjection
                     lifeTime.Value
                 );
 
-                //允许外层重新注入
                 services.TryAdd(serviceDescriptor);
             }
         }

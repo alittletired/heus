@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Heus.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Heus.Modularity
 {
-    internal class ModuleManager : SingletonDependencyAttribute
+    [Service(ServiceLifetime.Singleton)]
+    internal class ModuleManager 
     {
         private readonly IModuleContainer _moduleContainer;
         private readonly ILogger<ModuleManager> _logger;
