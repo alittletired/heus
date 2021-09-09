@@ -1,3 +1,4 @@
+using System;
 using Heus.AspNetCore.OpenApi;
 using Heus.Modularity;
 using Microsoft.AspNetCore.Builder;
@@ -9,17 +10,19 @@ using Microsoft.OpenApi.Models;
 
 namespace Heus.AspNetCore
 {
-    internal class StartUp 
+    internal class StartUp
     {
-        public StartUp(IConfiguration configuration)
+        private readonly Type _startupModule;
+        public StartUp(IConfiguration configuration,Type startupModule)
         {
             Configuration = configuration;
+            _startupModule = startupModule;
         }
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication<T>();
+            services.AddApplication(_startupModule);
             services.AddControllers()
                 .AddControllersAsServices();
             services.AddSwaggerGen(c =>
@@ -30,7 +33,7 @@ namespace Heus.AspNetCore
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+      public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var application = app.ApplicationServices.GetRequiredService<IHeusApplication>();
             application.Initialize(app.ApplicationServices);
@@ -46,5 +49,7 @@ namespace Heus.AspNetCore
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
+
+    
     }
 }

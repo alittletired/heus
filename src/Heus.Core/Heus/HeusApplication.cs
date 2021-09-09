@@ -18,8 +18,9 @@ namespace Heus
 
         public IReadOnlyList<ServiceModuleDescriptor> Modules { get; }
 
-        public HeusApplication(Type startupModuleType,
-             IServiceCollection services,
+        public HeusApplication( IServiceCollection services,
+            Type startupModuleType,
+            
              Action<ApplicationCreationOptions>? optionsAction)
         {
         
