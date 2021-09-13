@@ -1,9 +1,11 @@
 using System.Linq;
+using Heus.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Heus.AspNetCore.OpenApi
 {
+    [Service]
     internal class ResponseContentTypeOperationFilter: IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)

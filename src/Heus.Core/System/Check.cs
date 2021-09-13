@@ -136,8 +136,8 @@ namespace System
             return type;
         }
 
-        public static string Length(
-            [CanBeNull] string value,
+        public static string? Length(
+             string? value,
             [InvokerParameterName][NotNull] string parameterName,
             int maxLength,
             int minLength = 0)

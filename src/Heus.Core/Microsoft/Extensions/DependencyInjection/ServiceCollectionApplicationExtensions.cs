@@ -7,13 +7,15 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionApplicationExtensions
     {
-        public static IHeusApplication AddApplication(
+        public static IApplication AddApplication(
             this IServiceCollection services,
             Type startupModuleType,
              Action<ApplicationCreationOptions>? optionsAction =null)
-            
+
         {
-            return new HeusApplication(services,startupModuleType, optionsAction);
+            var application = new CoreApplication(services, startupModuleType);
+            application.AddServices();
+            return application;
         }
     }
 }

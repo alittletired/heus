@@ -45,7 +45,7 @@ namespace System
         /// <summary>
         /// Indicates whether this string is null or an System.String.Empty string.
         /// </summary>
-        public static bool IsNullOrEmpty(this string str)
+        public static bool IsNullOrEmpty(this string? str)
         {
             return string.IsNullOrEmpty(str);
         }
@@ -456,9 +456,9 @@ namespace System
         /// Gets a substring of a string from beginning of the string if it exceeds maximum length.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null</exception>
-        public static string Truncate(this string str, int maxLength)
+        public static string? Truncate(this string? str, int maxLength)
         {
-            if (str.IsNullOrEmpty())
+            if (str==null)
             {
                 return default;
             }
@@ -475,7 +475,7 @@ namespace System
         /// Gets a substring of a string from Ending of the string if it exceeds maximum length.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null</exception>
-        public static string TruncateFromBeginning(this string str, int maxLength)
+        public static string? TruncateFromBeginning(this string? str, int maxLength)
         {
             if (str == null)
             {
@@ -496,7 +496,7 @@ namespace System
         /// Returning string can not be longer than maxLength.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null</exception>
-        public static string TruncateWithPostfix(this string str, int maxLength)
+        public static string? TruncateWithPostfix(this string str, int maxLength)
         {
             return TruncateWithPostfix(str, maxLength, "...");
         }
@@ -507,7 +507,7 @@ namespace System
         /// Returning string can not be longer than maxLength.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="str"/> is null</exception>
-        public static string TruncateWithPostfix(this string str, int maxLength, string postfix)
+        public static string? TruncateWithPostfix(this string? str, int maxLength, string postfix)
         {
             if (str == null)
             {

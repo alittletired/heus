@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Heus.AspNetCore.OpenApi;
 using Heus.Modularity;
 using Microsoft.AspNetCore.Builder;
@@ -7,35 +8,47 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Heus.AspNetCore
 {
-    internal class StartUp
+    internal class WebStartUp
     {
-        private readonly Type _startupModule;
-        public StartUp(IConfiguration configuration,Type startupModule)
+        public IConfiguration Configuration { get; }
+
+        public WebStartUp(IConfiguration configuration)
         {
             Configuration = configuration;
-            _startupModule = startupModule;
+
         }
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication(_startupModule);
+            var startModuleType = services.GetImplementationType(typeof(IModule));
+            services.AddApplication(startModuleType);
             services.AddControllers()
                 .AddControllersAsServices();
             services.AddSwaggerGen(c =>
             {
-                c.OperationFilter<ResponseContentTypeOperationFilter>();
-                c.SchemaFilter<EnumSchemaFilter>();
+                services.Where(t => typeof(IOperationFilter).IsAssignableFrom(t.ServiceType))
+                    .ToList()
+                    .ForEach(t => c.OperationFilterDescriptors.Add(new FilterDescriptor
+                    {
+                        Type = t.ImplementationType,
+                    }));
+                services.Where(t => typeof(ISchemaFilter).IsAssignableFrom(t.ServiceType))
+                    .ToList()
+                    .ForEach(t => c.SchemaFilterDescriptors.Add(new FilterDescriptor
+                    {
+                        Type = t.ImplementationType,
+                    }));
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Heus.Web", Version = "v1"});
             });
         }
 
-      public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var application = app.ApplicationServices.GetRequiredService<IHeusApplication>();
+            var application = app.ApplicationServices.GetRequiredService<IApplication>();
             application.Initialize(app.ApplicationServices);
             if (env.IsDevelopment())
             {
@@ -50,6 +63,5 @@ namespace Heus.AspNetCore
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 
-    
     }
 }

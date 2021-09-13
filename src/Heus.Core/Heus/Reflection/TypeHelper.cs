@@ -12,14 +12,14 @@ namespace Heus.Reflection
 {
     public static class TypeHelper
     {
-        private static readonly HashSet<Type> FloatingTypes = new HashSet<Type>
+        private static readonly HashSet<Type> FloatingTypes = new() 
         {
             typeof(float),
             typeof(double),
             typeof(decimal)
         };
 
-        private static readonly HashSet<Type> NonNullablePrimitiveTypes = new HashSet<Type>
+        private static readonly HashSet<Type> NonNullablePrimitiveTypes = new()
         {
             typeof(byte),
             typeof(short),
@@ -43,7 +43,7 @@ namespace Heus.Reflection
             return NonNullablePrimitiveTypes.Contains(type);
         }
 
-        public static bool IsFunc(object obj)
+        public static bool IsFunc(object? obj)
         {
             if (obj == null)
             {
@@ -59,7 +59,7 @@ namespace Heus.Reflection
             return type.GetGenericTypeDefinition() == typeof(Func<>);
         }
 
-        public static bool IsFunc<TReturn>(object obj)
+        public static bool IsFunc<TReturn>(object? obj)
         {
             return obj != null && obj.GetType() == typeof(Func<TReturn>);
         }
@@ -88,13 +88,13 @@ namespace Heus.Reflection
         {
             if (t.GetGenericArguments().Length > 0 && t.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
-                return t.GetGenericArguments().FirstOrDefault();
+                return t.GetGenericArguments().First();
             }
 
             return t;
         }
 
-        public static bool IsEnumerable(Type type, out Type itemType, bool includePrimitives = true)
+        public static bool IsEnumerable(Type type, out Type? itemType, bool includePrimitives = true)
         {
             if (!includePrimitives && IsPrimitiveExtended(type))
             {
@@ -119,7 +119,7 @@ namespace Heus.Reflection
             return false;
         }
 
-        public static bool IsDictionary(Type type, out Type keyType, out Type valueType)
+        public static bool IsDictionary(Type type, out Type? keyType, out Type? valueType)
         {
             var dictionaryTypes = ReflectionHelper
                 .GetImplementedGenericTypes(
@@ -167,12 +167,9 @@ namespace Heus.Reflection
                    type == typeof(Guid);
         }
 
-        public static T GetDefaultValue<T>()
-        {
-            return default;
-        }
+       
 
-        public static object GetDefaultValue(Type type)
+        public static object? GetDefaultValue(Type type)
         {
             if (type.IsValueType)
             {
@@ -194,7 +191,7 @@ namespace Heus.Reflection
             if (type.IsGenericType)
             {
                 var genericType = type.GetGenericTypeDefinition();
-                return $"{genericType.FullName.Left(genericType.FullName.IndexOf('`'))}<{type.GenericTypeArguments.Select(GetFullNameHandlingNullableAndGenerics).JoinAsString(",")}>";
+                return $"{genericType.FullName?.Left(genericType.FullName.IndexOf('`'))}<{type.GenericTypeArguments.Select(GetFullNameHandlingNullableAndGenerics).JoinAsString(",")}>";
             }
 
             return type.FullName ?? type.Name;
@@ -212,7 +209,7 @@ namespace Heus.Reflection
             if (type.IsGenericType)
             {
                 var genericType = type.GetGenericTypeDefinition();
-                return $"{genericType.FullName.Left(genericType.FullName.IndexOf('`'))}<{type.GenericTypeArguments.Select(GetSimplifiedName).JoinAsString(",")}>";
+                return $"{genericType.FullName?.Left(genericType.FullName.IndexOf('`'))}<{type.GenericTypeArguments.Select(GetSimplifiedName).JoinAsString(",")}>";
             }
 
             if (type == typeof(string))
@@ -303,12 +300,12 @@ namespace Heus.Reflection
             return type.FullName ?? type.Name;
         }
 
-        public static object ConvertFromString<TTargetType>(string value)
+        public static object? ConvertFromString<TTargetType>(string value)
         {
             return ConvertFromString(typeof(TTargetType), value);
         }
 
-        public static object ConvertFromString(Type targetType, string value)
+        public static object? ConvertFromString(Type targetType, string? value)
         {
             if (value == null)
             {
@@ -345,15 +342,15 @@ namespace Heus.Reflection
             return false;
         }
 
-        public static object ConvertFrom<TTargetType>(object value)
+        public static object? ConvertFrom<TTargetType>(object value)
         {
             return ConvertFrom(typeof(TTargetType), value);
         }
 
-        public static object ConvertFrom(Type targetType, object value)
+        public static object? ConvertFrom(Type targetType, object value)
         {
             return TypeDescriptor
-                .GetConverter(targetType)
+                .GetConverter(targetType)?
                 .ConvertFrom(value);
         }
 
@@ -364,7 +361,7 @@ namespace Heus.Reflection
                 : type;
         }
 
-        public static bool IsDefaultValue([CanBeNull] object obj)
+        public static bool IsDefaultValue( object? obj)
         {
             if (obj == null)
             {

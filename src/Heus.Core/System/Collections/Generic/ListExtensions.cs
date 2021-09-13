@@ -193,9 +193,9 @@ namespace System.Collections.Generic
         /// If A depends on B, then B will come before than A in the resulting list.
         /// </returns>
         public static List<T> SortByDependencies<T>(
-            this IEnumerable<T> source, 
+            this IEnumerable<T> source,
             Func<T, IEnumerable<T>> getDependencies,
-            IEqualityComparer<T> comparer = null)
+            IEqualityComparer<T>? comparer = null) where T : notnull
         {
             /* See: http://www.codeproject.com/Articles/869059/Topological-sorting-in-Csharp
              *      http://en.wikipedia.org/wiki/Topological_sorting
@@ -221,7 +221,7 @@ namespace System.Collections.Generic
         /// <param name="sorted">List with the sortet items</param>
         /// <param name="visited">Dictionary with the visited items</param>
         private static void SortByDependenciesVisit<T>(T item, Func<T, IEnumerable<T>> getDependencies, List<T> sorted,
-            Dictionary<T, bool> visited)
+            Dictionary<T, bool> visited) where T : notnull
         {
             bool inProcess;
             var alreadyVisited = visited.TryGetValue(item, out inProcess);
@@ -238,12 +238,10 @@ namespace System.Collections.Generic
                 visited[item] = true;
 
                 var dependencies = getDependencies(item);
-                if (dependencies != null)
+
+                foreach (var dependency in dependencies)
                 {
-                    foreach (var dependency in dependencies)
-                    {
-                        SortByDependenciesVisit(dependency, getDependencies, sorted, visited);
-                    }
+                    SortByDependenciesVisit(dependency, getDependencies, sorted, visited);
                 }
 
                 visited[item] = false;

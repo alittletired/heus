@@ -10,19 +10,19 @@ namespace Heus.MultiTenancy
 {
     internal class CurrentTenant : ICurrentTenant
     {
-        private readonly static AsyncLocal<BasicTenantInfo> _currentScope = new AsyncLocal<BasicTenantInfo>();
-        public virtual bool IsAvailable => Id.HasValue;
+        private readonly static AsyncLocal<BasicTenantInfo?> CurrentScope = new();
+        public  bool IsAvailable => Id.HasValue;
 
-        public virtual Guid? Id => _currentScope.Value?.TenantId;
+        public  Guid? Id => CurrentScope.Value?.TenantId;
 
-        public string Name => _currentScope.Value?.Name;
-        public IDisposable Change(Guid? tenantId, string name = null)
+        public string? Name => CurrentScope.Value?.Name;
+        public IDisposable Change(Guid? tenantId, string? name = null)
         {
-            var parentScope = _currentScope.Value;
-            _currentScope.Value = new BasicTenantInfo(tenantId, name);
+            var parentScope = CurrentScope.Value;
+            CurrentScope.Value = new BasicTenantInfo(tenantId, name);
             return new DisposeAction(() =>
             {
-                _currentScope.Value = parentScope;
+                CurrentScope.Value = parentScope;
             });
         }
     }

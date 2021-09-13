@@ -80,7 +80,7 @@ namespace Heus.Reflection
         /// <param name="memberInfo">MemberInfo</param>
         /// <param name="defaultValue">Default value (null as default)</param>
         /// <param name="inherit">Inherit attribute from base classes</param>
-        public static TAttribute GetSingleAttributeOrDefault<TAttribute>(MemberInfo memberInfo, TAttribute defaultValue = default, bool inherit = true)
+        public static TAttribute? GetSingleAttributeOrDefault<TAttribute>(MemberInfo memberInfo, TAttribute? defaultValue = default, bool inherit = true)
             where TAttribute : Attribute
         {
             //Get attribute on the member
@@ -100,7 +100,8 @@ namespace Heus.Reflection
         /// <param name="memberInfo">MemberInfo</param>
         /// <param name="defaultValue">Default value (null as default)</param>
         /// <param name="inherit">Inherit attribute from base classes</param>
-        public static TAttribute GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<TAttribute>(MemberInfo memberInfo, TAttribute defaultValue = default, bool inherit = true)
+        public static TAttribute? GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<TAttribute>(MemberInfo memberInfo, 
+            TAttribute? defaultValue = default, bool inherit = true)
             where TAttribute : class
         {
             return memberInfo.GetCustomAttributes(true).OfType<TAttribute>().FirstOrDefault()
@@ -128,7 +129,7 @@ namespace Heus.Reflection
         /// <summary>
         /// Gets value of a property by it's full path from given object
         /// </summary>
-        public static object GetValueByPath(object obj, Type objectType, string propertyPath)
+        public static object? GetValueByPath(object obj, Type objectType, string propertyPath)
         {
             var value = obj;
             var currentType = objectType;
@@ -157,74 +158,8 @@ namespace Heus.Reflection
             return value;
         }
 
-        /// <summary>
-        /// Sets value of a property by it's full path on given object
-        /// </summary>
-        internal static void SetValueByPath(object obj, Type objectType, string propertyPath, object value)
-        {
-            var currentType = objectType;
-            PropertyInfo property;
-            var objectPath = currentType.FullName;
-            var absolutePropertyPath = propertyPath;
-            if (absolutePropertyPath.StartsWith(objectPath))
-            {
-                absolutePropertyPath = absolutePropertyPath.Replace(objectPath + ".", "");
-            }
+     
 
-            var properties = absolutePropertyPath.Split('.');
-
-            if (properties.Length == 1)
-            {
-                property = objectType.GetProperty(properties.First());
-                property.SetValue(obj, value);
-                return;
-            }
-
-            for (int i = 0; i < properties.Length - 1; i++)
-            {
-                property = currentType.GetProperty(properties[i]);
-                obj = property.GetValue(obj, null);
-                currentType = property.PropertyType;
-            }
-
-            property = currentType.GetProperty(properties.Last());
-            property.SetValue(obj, value);
-        }
-
-
-        /// <summary>
-        /// Get all the constant values in the specified type (including the base type).
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static string[] GetPublicConstantsRecursively(Type type)
-        {
-            const int maxRecursiveParameterValidationDepth = 8;
-
-            var publicConstants = new List<string>();
-
-            void Recursively(List<string> constants, Type targetType, int currentDepth)
-            {
-                if (currentDepth > maxRecursiveParameterValidationDepth)
-                {
-                    return;
-                }
-
-                constants.AddRange(targetType.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                    .Where(x => x.IsLiteral && !x.IsInitOnly)
-                    .Select(x => x.GetValue(null).ToString()));
-
-                var nestedTypes = targetType.GetNestedTypes(BindingFlags.Public);
-
-                foreach (var nestedType in nestedTypes)
-                {
-                    Recursively(constants, nestedType, currentDepth + 1);
-                }
-            }
-
-            Recursively(publicConstants, type, 1);
-
-            return publicConstants.ToArray();
-        }
+      
     }
 }

@@ -9,7 +9,6 @@ namespace Heus.Data
 {
     public interface IConnectionStringResolver
     {
-        [NotNull]
-        Task<string> ResolveAsync(string connectionStringName = null);
+        Task<string> ResolveAsync(string? connectionStringName = null);
     }
 }

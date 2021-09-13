@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace Heus.Security
 {
-    internal class CurrentUser : ICurrentUser, TransientDependencyAttribute
+    [Service]
+    internal class CurrentUser : ICurrentUser
     {
-        private static readonly AsyncLocal<ClaimsPrincipal?> _currentPrincipal = new AsyncLocal<ClaimsPrincipal?>();
+        private static readonly AsyncLocal<ClaimsPrincipal?> CurrentPrincipal = new();
         public bool IsAuthenticated => Principal != null;
 
-        public ClaimsPrincipal? Principal => _currentPrincipal.Value;
+        public ClaimsPrincipal? Principal => CurrentPrincipal.Value;
 
         public long? UserId => this.FindClaimValue<long>(ClaimTypes.Name);
 
@@ -26,10 +27,10 @@ namespace Heus.Security
         public IDisposable SetCurrent(ClaimsPrincipal principal)
         {
             var parent = Principal;
-            _currentPrincipal.Value = principal;
+            CurrentPrincipal.Value = principal;
             return new DisposeAction(() =>
             {
-                _currentPrincipal.Value = parent;
+                CurrentPrincipal.Value = parent;
             });
         }
     }

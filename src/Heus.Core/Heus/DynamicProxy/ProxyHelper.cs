@@ -28,7 +28,7 @@ namespace Heus.DynamicProxy
                 return obj;
             }
 
-            return targetField.GetValue(obj);
+            return targetField.GetValue(obj)!;
         }
 
         public static Type GetUnProxiedType(object obj)

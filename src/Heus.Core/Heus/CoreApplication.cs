@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Heus.DependencyInjection;
 using Heus.Modularity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -8,28 +10,21 @@ using Microsoft.Extensions.Logging;
 
 namespace Heus
 {
-    public class HeusApplication : IHeusApplication
+    public class CoreApplication :IApplication
     {
         public Type StartupModuleType { get; }
-
-        public IServiceProvider ServiceProvider { get; private set; }
-
-        public IServiceCollection Services { get; }
-
-        public IReadOnlyList<ServiceModuleDescriptor> Modules { get; }
-
-        public HeusApplication( IServiceCollection services,
-            Type startupModuleType,
-            
-             Action<ApplicationCreationOptions>? optionsAction)
+        public IServiceCollection Services { get; set; } 
+        public IReadOnlyList<ServiceModuleDescriptor> Modules { get; set; } = new List<ServiceModuleDescriptor>();
+        public CoreApplication(IServiceCollection services,Type startupModuleType)
         {
-        
             StartupModuleType = startupModuleType;
-            Services = services;
-            var options = new ApplicationCreationOptions(services);
-            optionsAction?.Invoke(options);
-            AddCoreServices(services);
-            Modules = LoadModules(services, options);
+            Services = services;  
+        }
+
+        public void AddServices()
+        {
+            AddCoreServices(Services);
+            Modules = LoadModules(Services);
             ConfigureServices();
         }
 
@@ -38,17 +33,15 @@ namespace Heus
             services.AddOptions();
             services.AddLogging();
             services.AddLocalization();
-            services.AddSingleton(typeof(IHeusApplication), this);
+            services.AddSingleton(typeof(IApplication), this);
             services.AddSingleton<IModuleContainer>(this);
             var moduleScanner = new ModuleScanner(this);
             services.TryAddSingleton(moduleScanner);
             var loggerFactory = new LoggerFactory();
             var moduleLoader = new ModuleLoader(loggerFactory.CreateLogger(this.GetType().Name));
             services.TryAddSingleton(moduleLoader);
-            services.AddAssemblyOf<IHeusApplication>();
         }
-        private IReadOnlyList<ServiceModuleDescriptor> LoadModules(IServiceCollection services,
-            ApplicationCreationOptions options)
+        private IReadOnlyList<ServiceModuleDescriptor> LoadModules(IServiceCollection services)
         {
             return services
                 .GetSingletonInstance<ModuleLoader>()
@@ -77,15 +70,31 @@ namespace Heus
                 }
             }
 
+            HashSet<Type> serviceTypes = new HashSet<Type>();
+            var registrars = Services.GetServiceRegistrars();
+            var serviceRegisterContext = new ServiceRegisterContext(Services);
             //ConfigureServices
             foreach (var module in Modules)
             {
 
                 if (!module.Instance.SkipAutoServiceRegistration)
                 {
-                    Services.AddAssembly(module.Type.Assembly);
+                    // Services.AddAssembly(module.Type.Assembly);
                 }
 
+                var types = module.Assembly.GetTypes()
+                    .Where(type => !serviceTypes.Contains(type)&&
+                                   type.IsClass &&
+                                   !type.IsAbstract &&
+                                   !type.IsGenericType
+                    );
+                foreach (var type in types)
+                {
+                    foreach (var registrar in registrars) 
+                    {
+                        registrar.Handle(serviceRegisterContext,type);
+                    }
+                }
                 try
                 {
                     module.Instance.ConfigureServices(context);
@@ -118,7 +127,7 @@ namespace Heus
 
         public  void Shutdown()
         {
-            using var scope = ServiceProvider.CreateScope();
+            using var scope =Services.GetSingletonInstance<IServiceProvider>().CreateScope();
             scope.ServiceProvider
                 .GetRequiredService<ModuleManager>()
                 .ShutdownModules(new ApplicationShutdownContext(scope.ServiceProvider));
@@ -126,20 +135,17 @@ namespace Heus
 
         private  void InitializeModules()
         {
-            using var scope = ServiceProvider.CreateScope();
-            scope.ServiceProvider
-                .GetRequiredService<ModuleManager>()
-                .InitializeModules(new ApplicationInitializationContext(scope.ServiceProvider));
+            // using var scope =Services.GetSingletonInstance<IServiceProvider>().CreateScope();
+            // scope.ServiceProvider
+            //     .GetRequiredService<ModuleManager>()
+            //     .InitializeModules(new ApplicationInitializationContext(scope.ServiceProvider));
         }
 
         public void Initialize(IServiceProvider serviceProvider)
         {
-            Check.NotNull(serviceProvider, nameof(serviceProvider));
-            ServiceProvider = serviceProvider;
+            Services.AddSingleton(serviceProvider);
             InitializeModules();
         }
-
-
         public void Dispose()
         {
         }

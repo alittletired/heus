@@ -5,7 +5,6 @@ namespace Heus.DependencyInjection
     public class ServiceRegisterContext
     {
         public IServiceCollection Services { get; }
-        public IServiceRegistrar Next { get; }
 
         public ServiceRegisterContext(IServiceCollection services)
         {
