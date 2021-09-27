@@ -11,6 +11,6 @@ namespace Heus.Ddd.Application.Dtos
         /// Maximum possible value of the <see cref="MaxResultCount"/>.
         /// Default value: 1,000.
         /// </summary>
-        public static int MaxMaxResultCount { get; set; } = 1000;
+        public static int MaxResultCount { get; set; } = 1000;
     }
 }

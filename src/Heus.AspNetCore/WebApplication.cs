@@ -19,14 +19,14 @@ namespace Heus.AspNetCore
         /// 开启web应用
         /// </summary>
         /// <param name="args"></param>
-        /// <param name="startModuleType"></param>
-        public static void Run(string[] args, Type startModuleType)
+        public static void Run(string[] args)
         {
-            CreateHostBuilder(args, startModuleType).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args, Type startModuleType)
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
+            Type startModuleType = Assembly.GetExecutingAssembly().GetType();
             if (!typeof(IModule).IsAssignableFrom(startModuleType))
             {
                 throw new InvalidOperationException($"{startModuleType}必须实现IModule");
@@ -36,8 +36,6 @@ namespace Heus.AspNetCore
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-
-
                     webBuilder.ConfigureServices(services =>
                         services.AddSingleton(typeof(IModule), startModuleType));
                     webBuilder.UseStartup<WebStartUp>();

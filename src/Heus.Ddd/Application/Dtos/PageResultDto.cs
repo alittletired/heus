@@ -4,16 +4,14 @@ namespace Heus.Ddd.Application.Dtos
 {
     public class PagedResultDto<T>
     {
-        public long TotalCount { get; set; } //TODO: Can be a long value..?
+        public int TotalCount { get; set; } 
         public IEnumerable<T> Items { get; set; }
-
-
         /// <summary>
         /// Creates a new <see cref="PagedResultDto{T}"/> object.
         /// </summary>
         /// <param name="totalCount">Total count of Items</param>
         /// <param name="items">List of items in current page</param>
-        public PagedResultDto(long totalCount, IEnumerable<T> items)
+        public PagedResultDto(int totalCount, IEnumerable<T> items)
 
         {
             TotalCount = totalCount;
