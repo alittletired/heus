@@ -1,14 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\..\configureawait.props" />
-	<Import Project="..\..\common.props" />
   <PropertyGroup>
 	  <AssemblyName>Heus.Ddd</AssemblyName>
 	  <PackageId>Heus.Ddd</PackageId>
 	  <RootNamespace>Heus.Ddd</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Domain" />
-  </ItemGroup>
+ 
   <ItemGroup>
     <ProjectReference Include="..\Heus.Core\Heus.Core.csproj" />
   </ItemGroup>

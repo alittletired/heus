@@ -11,7 +11,8 @@ namespace System
     /// </summary>
     public static class ObjectExtensions
     {
-      
+
+
 
         /// <summary>
         /// Converts given object to a value type using <see cref="Convert.ChangeType(object,System.Type)"/> method.
@@ -29,7 +30,6 @@ namespace System
 
             return (T)Convert.ChangeType(obj, typeof(T), CultureInfo.InvariantCulture);
         }
-
         /// <summary>
         /// Check if an item is in a list.
         /// </summary>

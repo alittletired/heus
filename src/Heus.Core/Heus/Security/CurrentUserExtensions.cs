@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -9,9 +10,10 @@ namespace Heus.Security
 {
     public static class CurrentUserExtensions
     {
-        public static string? FindClaimValue(this ICurrentUser currentUser, string claimType)
+        [CanBeNull]
+        public static string FindClaimValue(this ICurrentUser currentUser, string claimType)
         {
-            return currentUser.Principal?.FindFirst(claimType)?.Value;
+            return currentUser.FindClaim(claimType)?.Value;
         }
 
         public static T FindClaimValue<T>(this ICurrentUser currentUser, string claimType)

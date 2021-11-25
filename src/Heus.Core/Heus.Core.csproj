@@ -1,17 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\..\configureawait.props" />
-	<Import Project="..\..\common.props" />
   <PropertyGroup>
 	  <AssemblyName>Heus.Core</AssemblyName>
 	  <PackageId>Heus.Core</PackageId>
-	  <RootNamespace />
+	   <RootNamespace>Heus.Core</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
 	  <PackageReference Include="Autofac" Version="6.2.0" />
+	  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
 	  <PackageReference Include="AutoMapper" Version="10.1.1" />
 	  <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
-	  <PackageReference Include="System.ComponentModel.Annotations" Version="$(MicrosoftPackageVersion)" />
 	  <PackageReference Include="System.Collections.Immutable" Version="$(MicrosoftPackageVersion)" />
 	  <PackageReference Include="Microsoft.Extensions.Localization" Version="$(MicrosoftPackageVersion)" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftPackageVersion)" />
@@ -24,7 +21,6 @@
 	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="$(MicrosoftPackageVersion)" />
 	  <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
 	  <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
-	  <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
 	  <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.0" />
 	  <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.0" />
   </ItemGroup>
