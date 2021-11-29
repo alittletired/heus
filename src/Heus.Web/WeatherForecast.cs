@@ -18,6 +18,6 @@ namespace Heus.Web
 
         public int TemperatureF => 32 + (int) (TemperatureC / 0.5556);
         public EntityState EntityState { get; set; }
-        public string Summary { get; set; }
+        public string? Summary { get; set; }
     }
 }

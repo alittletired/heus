@@ -13,7 +13,11 @@ namespace Heus.Security
         long? UserId { get; }
         string? UserName { get; }
         long? TenantId { get; }
-        public ClaimsPrincipal? Principal { get; }
+        ClaimsPrincipal? Principal { get; }
         IDisposable SetCurrent(ClaimsPrincipal principal);
+        Claim? FindClaim(string claimType)
+        {
+            return Principal?.Claims.FirstOrDefault(c => c.Type == claimType);
+        }
     }
 }

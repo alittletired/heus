@@ -7,14 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Heus.Web.csproj", "."]
-RUN dotnet restore "Heus.Web.csproj"
+COPY ["src/Heus.Web/Heus.Web.csproj", "src/Heus.Web/"]
+COPY ["src/Heus.Core/Heus.Core.csproj", "src/Heus.Core/"]
+COPY ["src/Heus.AspNetCore/Heus.AspNetCore.csproj", "src/Heus.AspNetCore/"]
+COPY ["Directory.Build.props", "."]
+RUN dotnet restore "src/Heus.Web/Heus.Web.csproj"
 COPY . .
-WORKDIR "/src/"
-RUN dotnet build "Heus.Web.csproj" -c Release -o /app/build
+RUN dotnet build "src/Heus.Web/Heus.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Heus.Web.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/Heus.Web/Heus.Web.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

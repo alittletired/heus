@@ -1,8 +1,7 @@
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace System.Collections.Generic
-{
+namespace System.Collections.Generic;
     /// <summary>
     /// Extension methods for Collections.
     /// </summary>
@@ -119,4 +118,4 @@ namespace System.Collections.Generic
             }
         }
     }
-}
+
