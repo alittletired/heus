@@ -20,7 +20,11 @@ public static class HeusWebApplication
     /// <param name="args"></param>
     public static void Run(string[] args)
     {
-        CreateHostBuilder(args).Build().Run();
+        var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddAspNetCoreServices();
+        var app = builder.Build();
+        app.UseHeus();
+        app.Run();
     }
 
     private static IHostBuilder CreateHostBuilder(string[] args)

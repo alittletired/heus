@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Heus.Core;
 using Heus.MultiTenancy;
 
 namespace Heus.MultiTenancy
@@ -20,7 +21,7 @@ namespace Heus.MultiTenancy
         {
             var parentScope = CurrentScope.Value;
             CurrentScope.Value = new BasicTenantInfo(tenantId, name);
-            return new DisposeAction(() =>
+            return  DisposeAction.Create(() =>
             {
                 CurrentScope.Value = parentScope;
             });

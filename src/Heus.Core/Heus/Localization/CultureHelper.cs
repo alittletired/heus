@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using Heus.Core;
 using JetBrains.Annotations;
 
 namespace Heus.Localization
@@ -26,7 +27,7 @@ namespace Heus.Localization
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = uiCulture ?? culture;
 
-            return new DisposeAction(() =>
+            return  DisposeAction.Create(() =>
             {
                 CultureInfo.CurrentCulture = currentCulture;
                 CultureInfo.CurrentUICulture = currentUiCulture;

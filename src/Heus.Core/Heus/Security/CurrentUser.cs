@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Heus.Core;
 
 namespace Heus.Security
 {
@@ -28,7 +29,7 @@ namespace Heus.Security
         {
             var parent = Principal;
             CurrentPrincipal.Value = principal;
-            return new DisposeAction(() =>
+            return DisposeAction.Create(() =>
             {
                 CurrentPrincipal.Value = parent;
             });
